@@ -26,6 +26,13 @@ if [ -f "${node_exporter_version}".tar.gz ] ; then
     rm -rf "${node_exporter_version}"*
 fi
 
+if [ -f "$prometheus_config" ] ; then
+    echo -e "\nConfiguring local prometheus scrape...\n"
+    cat prometheus.yml >> "$prometheus_config"
+    systemctl daemon-reload
+    systemctl restart prometheus.service
+fi
+
 echo -e "\nConfiguring node_exporter systemd unit service\n"
 
 if [ $? == 0 ] ; then
@@ -44,13 +51,6 @@ ExecStart=/usr/local/bin/node_exporter
 WantedBy=multi-user.target
 EOF
 
-fi
-
-if [ -f "$prometheus_config" ] ; then
-    echo -e "\nConfiguring local prometheus scrape...\n"
-    cat prometheus.yml >> "$prometheus_config"
-    systemctl daemon-reload
-    systemctl restart prometheus.service
 fi
 
 echo -e "\nConfiguring node_exporter service startup\n"
