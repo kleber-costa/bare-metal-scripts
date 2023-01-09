@@ -64,6 +64,5 @@ if [ -f "$prometheus_service" ] ; then
     systemctl start prometheus.service
     if [ $? == 0 ] ; then 
         systemctl enable prometheus.service
-        systemctl status prometheus.service
     fi
 fi
