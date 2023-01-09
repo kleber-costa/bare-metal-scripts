@@ -30,6 +30,7 @@ if [ -f "${prometheus_version}".tar.gz ] ; then
     cp -a ${prometheus_version}/console_libraries /etc/prometheus/
     cp -a ${prometheus_version}/prometheus.yml /etc/prometheus/prometheus.yml
     chown prometheus: -R /etc/prometheus
+    rm -rf ${prometheus_version}*
 fi
 
 echo -e "\nConfiguring prometheus systemd unit service\n"
@@ -59,7 +60,7 @@ fi
 echo -e "\nConfiguring prometheus service startup\n"
 
 if [ -f "$prometheus_service" ] ; then
-    systemctl daemon-realod
+    systemctl daemon-reload
     systemctl start prometheus.service
     if [ $? == 0 ] ; then 
         systemctl enable prometheus.service
