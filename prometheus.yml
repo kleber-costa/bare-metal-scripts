@@ -1,0 +1,7 @@
+
+  - job_name: "node_exporter"
+    metrics_path: "/metrics"
+    scheme:  "http"
+    static_configs:
+      - targets: ["localhost:9100"]
+
